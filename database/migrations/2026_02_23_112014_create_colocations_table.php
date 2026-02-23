@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('colocations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
+            $table->enum('status', ['active', 'cancelled'])->default('active');
             $table->timestamps();
         });
     }
