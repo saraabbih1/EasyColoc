@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Spatie\Permission\Traits\HasRoles;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+      use HasRoles;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -45,4 +46,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function ownedColocations()
+{
+    return $this->hasMany(Colocation::class, 'owner_id');
+}
+
+public function colocations()
+{
+    return $this->belongsToMany(Colocation::class, 'memberships')
+                ->withPivot('joined_at', 'left_at')
+                ->withTimestamps();
+}
+
+public function expenses()
+{
+    return $this->hasMany(Expense::class);
+}
+
+public function paymentsSent()
+{
+    return $this->hasMany(Payment::class, 'from_user_id');
+}
+
+public function paymentsReceived()
+{
+    return $this->hasMany(Payment::class, 'to_user_id');
+}
 }
