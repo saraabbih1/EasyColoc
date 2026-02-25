@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Spatie\Permission\Traits\HasRoles;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-      use HasRoles;
+    use HasRoles;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -22,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_banned',
     ];
 
     /**
@@ -47,22 +50,22 @@ class User extends Authenticatable
         ];
     }
     public function memberships()
-{
-    return $this->hasMany(Membership::class);
-}
+    {
+        return $this->hasMany(Membership::class);
+    }
 
-public function expenses()
-{
-    return $this->hasMany(Expense::class);
-}
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 
-public function settlementsAsDebtor()
-{
-    return $this->hasMany(Settlement::class, 'debtor_id');
-}
+    public function settlementsAsDebtor()
+    {
+        return $this->hasMany(Settlement::class, 'debtor_id');
+    }
 
-public function settlementsAsCreditor()
-{
-    return $this->hasMany(Settlement::class, 'creditor_id');
-}
+    public function settlementsAsCreditor()
+    {
+        return $this->hasMany(Settlement::class, 'creditor_id');
+    }
 }
