@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
 
 
 Route::get('/', function () {
@@ -23,5 +24,17 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('colocations', ColocationController::class);
 });
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/expenses/create', [ExpenseController::class, 'create'])
+        ->name('expenses.create');
+
+    Route::post('/expenses', [ExpenseController::class, 'store'])
+        ->name('expenses.store');
+
+});
+Route::get('/colocations/{colocation}/members', 
+    [ColocationController::class, 'members']
+)->name('colocations.members');
 
 require __DIR__.'/auth.php';

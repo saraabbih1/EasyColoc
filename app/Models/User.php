@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Membership;
+use App\Models\Expense;
+use App\Models\Settlement;
 use Spatie\Permission\Traits\HasRoles;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
