@@ -56,4 +56,12 @@ class ColocationController extends Controller
     {
         return view('colocations.show', compact('colocation'));
     }
+    public function members($id)
+    {
+        $colocation = Colocation::with('memberships.user')
+            ->findOrFail($id);
+
+        return view('colocations.members', compact('colocation'));
+    }
+
 }
