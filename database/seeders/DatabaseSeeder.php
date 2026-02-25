@@ -13,17 +13,17 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-{
-    // Create roles
-    Role::create(['name' => 'global-admin']);
-    Role::create(['name' => 'owner']);
-    Role::create(['name' => 'member']);
+  public function run(): void
+    {
+        User::truncate();
 
-    $admin = User::factory()->create([
-        'name' => 'Admin',
-        'email' => 'admin@easycoloc.com',
-    ]);
-
-    $admin->assignRole('global-admin');
-}}
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@easycoloc.com',
+            'password' => bcrypt('12345678'),  
+            'role' => 'admin',   
+            'reputation' => 0,
+            'is_banned' => 0,
+        ]);
+    }
+}
