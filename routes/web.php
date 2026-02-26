@@ -52,5 +52,5 @@ Route::post('/invitations/refuse/{token}',
 
 // Membres 
 Route::get('/colocations/{colocation}/members', [MembershipController::class, 'index'])->name('colocations.members');   
-
+Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
 require __DIR__.'/auth.php';
