@@ -25,6 +25,11 @@
         </div>
 
         @if(!$colocation)
+        <form method="POST" action="{{ route('invitations.store', $colocation->id) }}">
+    @csrf
+    <input type="email" name="email" placeholder="Email" required>
+    <button type="submit">Inviter</button>
+</form>
             {{-- EMPTY STATE --}}
             <div class="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-xl">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 mb-6">

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\InvitationController;
 
 
 Route::get('/', function () {
@@ -36,5 +37,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/colocations/{colocation}/members', 
     [ColocationController::class, 'members']
 )->name('colocations.members');
+
+Route::post('/colocations/{id}/invite', [InvitationController::class, 'store'])
+    ->name('invitations.store');
+
+Route::get('/invitations/accept/{token}', [InvitationController::class, 'accept'])
+    ->name('invitations.accept');
 
 require __DIR__.'/auth.php';
