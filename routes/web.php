@@ -6,6 +6,7 @@ use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\MembershipController;
 
 
 Route::get('/', function () {
@@ -46,6 +47,10 @@ Route::get('/invitations/accept/{token}', [InvitationController::class, 'accept'
 Route::post('/invitations/refuse/{token}', 
     [InvitationController::class, 'refuse'])
     ->middleware('auth')
-    ->name('invitations.refuse');    
+    ->name('invitations.refuse'); 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+// Membres 
+Route::get('/colocations/{colocation}/members', [MembershipController::class, 'index'])->name('colocations.members');   
 
 require __DIR__.'/auth.php';
