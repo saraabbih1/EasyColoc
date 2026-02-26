@@ -134,7 +134,47 @@
                 </div>
             </div>
             @endif
+{{-- ===== MEMBERS LIST ===== --}}
+@if($colocation && $colocation->memberships->count())
+    <div class="bg-white p-6 rounded-2xl border shadow-sm mt-8">
+        <h2 class="text-lg font-bold mb-4">Membres de la colocation</h2>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @foreach($colocation->memberships as $membership)
+                @php
+                    $member = $membership->user;
+                    $memberBalance = collect($balances)->firstWhere('name', $member->name);
+                @endphp
+                <div class="flex flex-col justify-between p-4 border rounded-xl hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                {{ strtoupper(substr($member->name, 0, 2)) }}
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">{{ $member->name }}</p>
+                                <p class="text-xs text-gray-500">{{ ucfirst($membership->role) }}</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-1 text-xs rounded-full
+                            @if($membership->status == 'active') bg-green-100 text-green-700
+                            @elseif($membership->status == 'pending') bg-yellow-100 text-yellow-700
+                            @else bg-red-100 text-red-700
+                            @endif">
+                            {{ ucfirst($membership->status) }}
+                        </span>
+                    </div>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">Balance:</p>
+                        <h3 class="text-lg font-bold {{ ($memberBalance['balance'] ?? 0) >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                            {{ number_format($memberBalance['balance'] ?? 0, 2) }} €
+                        </h3>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
         @endif
 
     </div>
