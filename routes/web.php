@@ -43,5 +43,9 @@ Route::post('/colocations/{id}/invite', [InvitationController::class, 'store'])
 
 Route::get('/invitations/accept/{token}', [InvitationController::class, 'accept'])
     ->name('invitations.accept');
+Route::post('/invitations/refuse/{token}', 
+    [InvitationController::class, 'refuse'])
+    ->middleware('auth')
+    ->name('invitations.refuse');    
 
 require __DIR__.'/auth.php';

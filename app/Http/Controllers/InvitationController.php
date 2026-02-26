@@ -59,4 +59,19 @@ class InvitationController extends Controller
         return redirect()->route('dashboard')
             ->with('success', 'Invitation acceptée !');
     }
+ public function refuse($token)
+{
+    $invitation = Invitation::where('token', $token)
+        ->where('status', 'pending')
+        ->firstOrFail();
+
+    if ($invitation->email !== auth()->user()->email) {
+        abort(403);
+    }
+
+    $invitation->update(['status' => 'refused']);
+
+    return redirect()->route('dashboard')
+        ->with('success', 'Invitation refusée.');
+}   
 }
