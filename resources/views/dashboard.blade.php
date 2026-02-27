@@ -29,6 +29,22 @@
         </div>
 
         {{-- ===== EMPTY STATE ===== --}}
+        <div class="container">
+    <h2>Créer une colocation</h2>
+
+    <form method="POST" action="{{ route('colocations.store') }}">
+        @csrf
+
+        <div class="mb-3">
+            <label>Nom de la colocation</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Créer
+        </button>
+    </form>
+</div>
         @if(!$colocation)
 
             <div class="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-sm">
@@ -53,7 +69,7 @@
                 <div class="bg-white p-6 rounded-2xl border shadow-sm">
                     <p class="text-gray-500 text-sm">Total Dépenses</p>
                     <h3 class="text-2xl font-bold text-gray-900 mt-2">
-                        {{ number_format($colocation->expenses->sum('amount'), 2) }} €
+                        {{ number_format($colocation->expenses->sum('amount'), 2) }} MAD
                     </h3>
                 </div>
 
@@ -203,6 +219,7 @@
     </form>
 </div>
 @endif
+
         @endif
 
     </div>
