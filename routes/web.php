@@ -9,6 +9,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\MembershipController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -53,4 +54,7 @@ Route::post('/invitations/refuse/{token}',
 // Membres 
 Route::get('/colocations/{colocation}/members', [MembershipController::class, 'index'])->name('colocations.members');   
 Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+Route::post('/colocations/{colocation}/invite', 
+    [InvitationController::class, 'store']
+)->name('invitations.store');
 require __DIR__.'/auth.php';
