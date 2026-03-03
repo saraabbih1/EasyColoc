@@ -16,12 +16,17 @@ class SettlementController extends Controller
 
     public function index(Colocation $colocation)
     {
+        return $this->show($colocation);
+    }
+
+    public function show(Colocation $colocation)
+    {
         $this->authorize('view', $colocation);
 
         $settlements = $this->settlementService->getPendingForColocation($colocation);
         $summary = $this->settlementService->buildSummary($colocation);
 
-        return view('settlements.index', compact('colocation', 'settlements', 'summary'));
+        return view('settlements.show', compact('colocation', 'settlements', 'summary'));
     }
 
     public function markAsPaid(Colocation $colocation, Settlement $settlement)
