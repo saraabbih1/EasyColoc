@@ -20,13 +20,11 @@ class MembershipController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'role' => 'required|string',
         ]);
 
         Membership::create([
             'user_id' => $request->user_id,
             'colocation_id' => $colocation->id,
-            'role' => $request->role,
             'status' => 'active',
         ]);
 
