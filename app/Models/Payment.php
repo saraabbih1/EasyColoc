@@ -10,11 +10,14 @@ class Payment extends Model
         'from_user_id',
         'to_user_id',
         'colocation_id',
+        'expense_id',
+        'paid_at',
         'amount',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'paid_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -32,5 +35,10 @@ class Payment extends Model
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
+    }
+
+    public function expense()
+    {
+        return $this->belongsTo(Expense::class);
     }
 }
