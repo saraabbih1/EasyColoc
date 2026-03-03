@@ -11,7 +11,7 @@ EasyColoc est une application web Laravel complète pour la gestion de colocatio
 
 ##  Fonctionnalités principales
 
-### 👥 Gestion des utilisateurs
+###  Gestion des utilisateurs
 - **Inscription / connexion** avec Laravel Breeze
 - **Rôles et permissions** : Global Admin, Owner, Member
 - **Système de réputation** : +1/-1 selon le comportement
@@ -109,7 +109,7 @@ php artisan serve
 
 L'application sera disponible sur `http://localhost:8000`
 
-## 👤 Comptes de démonstration
+## Comptes de démonstration
 
 Après l'installation avec les seeders, vous pouvez utiliser ces comptes :
 
