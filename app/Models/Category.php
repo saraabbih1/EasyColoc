@@ -8,7 +8,13 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
+        'color',
         'colocation_id'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function colocation()
@@ -19,5 +25,15 @@ class Category extends Model
     public function expenses()
     {
         return $this->hasMany(Expense::class);
+    }
+
+    public function getTotalExpensesAttribute()
+    {
+        return $this->expenses()->sum('amount');
+    }
+
+    public function getFormattedTotalAttribute()
+    {
+        return number_format($this->total_expenses, 2, ',', ' ') . ' €';
     }
 }
