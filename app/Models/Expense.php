@@ -13,7 +13,7 @@ class Expense extends Model
         'expense_date',
         'user_id',
         'colocation_id',
-        'category_id'
+        'category_id',
     ];
 
     protected $casts = [
@@ -43,6 +43,11 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function scopeByMonth(Builder $query, string $month): Builder
     {
         return $query->whereMonth('expense_date', $month);
@@ -60,6 +65,21 @@ class Expense extends Model
 
     public function getFormattedAmountAttribute()
     {
-        return number_format($this->amount, 2, ',', ' ') . ' €';
+        return number_format($this->amount, 2, ',', ' ') . ' MAD';
+    }
+
+    public function getPaidAmountAttribute(): float
+    {
+        return (float) $this->payments()->sum('amount');
+    }
+
+    public function getRemainingAmountAttribute(): float
+    {
+        return max(0.0, (float) $this->amount - $this->paid_amount);
+    }
+
+    public function isFullySettled(): bool
+    {
+        return $this->remaining_amount <= 0.009;
     }
 }
