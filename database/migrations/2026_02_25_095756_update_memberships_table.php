@@ -9,19 +9,29 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up()
-{
-    Schema::table('memberships', function (Blueprint $table) {
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('colocation_id')->constrained()->onDelete('cascade');
-        $table->string('status')->default('active');
-    });
-}
+    public function up(): void
+    {
+        if (!Schema::hasTable('memberships')) {
+            return;
+        }
 
-public function down()
-{
-    Schema::table('memberships', function (Blueprint $table) {
-        $table->dropColumn(['user_id','colocation_id','status']);
-    });
-}
+        Schema::table('memberships', function (Blueprint $table) {
+            if (!Schema::hasColumn('memberships', 'status')) {
+                $table->string('status')->default('active');
+            }
+        });
+    }
+
+    public function down(): void
+    {
+        if (!Schema::hasTable('memberships')) {
+            return;
+        }
+
+        Schema::table('memberships', function (Blueprint $table) {
+            if (Schema::hasColumn('memberships', 'status')) {
+                $table->dropColumn('status');
+            }
+        });
+    }
 };
