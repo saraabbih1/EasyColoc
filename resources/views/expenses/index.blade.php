@@ -26,6 +26,10 @@
                                 Ajouter une dépense
                             </a>
                         @endcan
+                        <a href="{{ route('colocations.settlement.show', $colocation) }}"
+                           class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Remboursements
+                        </a>
                     </div>
                 </div>
             </div>
@@ -199,6 +203,21 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <div class="flex items-center justify-end space-x-2">
+                                                        @if($expense->isFullySettled())
+                                                            <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                                                                Paid
+                                                            </span>
+                                                        @else
+                                                            @can('pay', $expense)
+                                                                <form method="POST" action="{{ route('colocations.payments.store', $colocation) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="expense_id" value="{{ $expense->id }}">
+                                                                    <button type="submit" class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-indigo-600 text-white hover:bg-indigo-700">
+                                                                        Payer
+                                                                    </button>
+                                                                </form>
+                                                            @endcan
+                                                        @endif
                                                         @can('update', $expense)
                                                             <a href="{{ route('expenses.edit', [$colocation, $expense]) }}" 
                                                                class="text-indigo-600 hover:text-indigo-900">
