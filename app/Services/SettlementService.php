@@ -33,7 +33,9 @@ class SettlementService
                 continue;
             }
 
-            $user = $colocation->members()->firstWhere('id', $userId);
+            $user = $colocation->members()
+                ->where('users.id', $userId)
+                ->first();
             if (!$user) {
                 continue;
             }
