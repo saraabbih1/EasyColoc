@@ -12,17 +12,12 @@
 
     <p>Pour accepter l'invitation, cliquez sur le lien ci-dessous :</p>
 
-    <a href="{{ route('invitations.accept', $invitation->token) }}" 
+    <a href="{{ route('invitations.accept.public', $invitation->token) }}" 
        style="display:inline-block;padding:10px 20px;background-color:#3b82f6;color:white;text-decoration:none;border-radius:5px;">
        Accepter l'invitation
     </a>
 
-    <p>Si vous ne voulez pas rejoindre, vous pouvez refuser :</p>
-
-    <a href="{{ route('invitations.refuse', $invitation->token) }}" 
-       style="display:inline-block;padding:10px 20px;background-color:#ef4444;color:white;text-decoration:none;border-radius:5px;">
-       Refuser
-    </a>
+    <p>Si vous ne souhaitez pas rejoindre, vous pouvez ignorer cet email.</p>
 
     {{-- <p>Cette invitation expire le {{ $invitation->expires_at->format('d M Y') }}.</p> --}}
 
