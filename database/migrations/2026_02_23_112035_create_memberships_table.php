@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('memberships', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-             $table->foreignId('colocation_id')->constrained()->cascadeOnDelete();
-             $table->string('status')->default('active');
-              $table->timestamp('joined_at')->useCurrent();
-              $table->timestamp('left_at')->nullable();
-               $table->timestamps();
-             $table->unique(['user_id', 'colocation_id']);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('colocation_id')->constrained()->cascadeOnDelete();
+            $table->enum('status', ['active', 'left', 'cancelled'])->default('active');
+            $table->timestamp('left_at')->nullable();
+            $table->timestamps();
+            
+            $table->unique(['user_id', 'colocation_id']);
+            $table->index(['user_id', 'status']);
+            $table->index(['colocation_id', 'status']);
         });
     }
 
