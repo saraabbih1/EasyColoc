@@ -54,7 +54,7 @@ class ColocationController extends Controller
         $canManage = $isOwner || $isAdmin;
 
         $members = $colocation->activeMembers()->get();
-        $expenses = $colocation->expenses()->with(['category', 'payer'])->latest()->get();
+        $expenses = $colocation->expenses()->with(['category', 'payer', 'payments'])->latest()->get();
         $settlements = $colocation->settlements()->where('status', 'pending')->get();
 
         $balances = app(BalanceCalculatorService::class)->calculateBalances($colocation);
