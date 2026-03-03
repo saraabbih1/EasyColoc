@@ -1,59 +1,245 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EasyColoc - Gestion de Colocation
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="https://img.shields.io/badge/Laravel-12.0-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+    <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+    <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
 </p>
 
-## About Laravel
+EasyColoc est une application web Laravel complète pour la gestion de colocations et le suivi des dépenses communes. Permet aux utilisateurs de savoir qui doit quoi à qui, avec calcul automatique des soldes, gestion des invitations, des rôles, et un système de réputation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+##  Fonctionnalités principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👥 Gestion des utilisateurs
+- **Inscription / connexion** avec Laravel Breeze
+- **Rôles et permissions** : Global Admin, Owner, Member
+- **Système de réputation** : +1/-1 selon le comportement
+- **Bannissement automatique** pour les utilisateurs bannis
+- **Premier inscrit devient Global Admin**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+###  Gestion des colocations
+- **Création de colocation** avec owner automatique
+- **Invitation par email/token** avec acceptation/refus
+- **Une seule colocation active** par utilisateur
+- **Gestion des membres** (ajout, retrait, départ)
+- **Annulation de colocation** avec gestion des dettes
 
-## Learning Laravel
+###  Suivi des dépenses
+- **Ajout de dépenses** avec titre, montant, date, catégorie, payeur
+- **Historique complet** des dépenses
+- **Statistiques par catégorie** et mensuelles
+- **Filtrage par mois** et par catégorie
+- **Calcul automatique** des parts individuelles
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+###  Gestion des dettes
+- **Calcul automatique** : total payé, part individuelle, solde
+- **Vue synthétique** "qui doit à qui"
+- **Marquage des paiements** pour réduire les dettes
+- **Optimisation des dettes** pour minimiser les transactions
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+###  Interface moderne
+- **Responsive Design** avec Tailwind CSS
+- **Interface intuitive** et ergonomique
+- **Dashboard personnalisé** selon le rôle
+- **Notifications et messages** informatifs
 
-## Laravel Sponsors
+##  Architecture technique
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Framework** : Laravel 12.0 (dernier stable)
+- **Architecture** : MVC monolithique
+- **Base de données** : MySQL avec migrations Laravel
+- **ORM** : Eloquent avec relations hasMany et belongsToMany
+- **Authentification** : Laravel Breeze
+- **Front-end** : Blade + Tailwind CSS + JavaScript natif
+- **Sécurité** : CSRF, validation Form Requests, protection XSS
 
-### Premium Partners
+##  Prérequis
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP 8.2 ou supérieur
+- Composer 2.0 ou supérieur
+- MySQL 8.0 ou supérieur
+- Node.js 18+ et NPM (pour les assets)
 
-## Contributing
+##  Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Cloner le projet
+```bash
+git clone <repository-url>
+cd easy-coloc
+```
 
-## Code of Conduct
+### 2. Installer les dépendances
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Configuration de l'environnement
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+### 4. Configurer la base de données
+Éditez le fichier `.env` avec vos informations de base de données :
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=easycoloc
+DB_USERNAME=root
+DB_PASSWORD=votre_mot_de_passe
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Exécuter les migrations et les seeders
+```bash
+php artisan migrate --seed
+```
 
-## License
+### 6. Compiler les assets
+```bash
+npm run build
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 7. Démarrer le serveur
+```bash
+php artisan serve
+```
+
+L'application sera disponible sur `http://localhost:8000`
+
+## 👤 Comptes de démonstration
+
+Après l'installation avec les seeders, vous pouvez utiliser ces comptes :
+
+| Email | Mot de passe | Rôle | Description |
+|-------|-------------|------|-------------|
+| admin@easycoloc.test | password | Admin | Administrateur global |
+| alice@easycoloc.test | password | User | Propriétaire d'une colocation |
+| bob@easycoloc.test | password | User | Membre d'une colocation |
+| carla@easycoloc.test | password | User | Membre d'une colocation |
+| david@easycoloc.test | password | User | Propriétaire d'une autre colocation |
+| banned@easycoloc.test | password | User | Compte banni (test) |
+
+##  Structure de la base de données
+
+### Tables principales
+- **users** : Informations utilisateurs avec rôle, réputation, statut banni
+- **colocations** : Informations des colocations
+- **memberships** : Table pivot entre users et colocations (rôle, statut)
+- **expenses** : Dépenses avec catégorie, payeur, date
+- **categories** : Catégories de dépenses par colocation
+- **settlements** : Dettes entre utilisateurs
+- **invitations** : Invitations en attente avec token
+
+### Relations clés
+- User ↔ Colocation : belongsToMany via memberships
+- Colocation ↔ Expense : hasMany
+- Expense ↔ User : belongsTo (payeur)
+- Expense ↔ Category : belongsTo
+- Settlement : relations debtor et creditor avec User
+
+##  Sécurité
+
+- **Protection CSRF** sur toutes les routes sensibles
+- **Validation côté serveur** avec Form Requests
+- **Protection XSS** automatique avec Blade
+- **Middleware personnalisés** : `not.banned`, `admin`
+- **Gates et Policies** pour les autorisations fines
+- **Hashage des mots de passe** avec bcrypt
+
+## Cas d'utilisation
+
+### Scénario 1 : Création de colocation
+1. Alice crée une colocation "Appartement Paris 15"
+2. Elle devient automatiquement owner
+3. Elle invite Bob par email
+4. Bob accepte l'invitation et devient membre
+
+### Scénario 2 : Gestion des dépenses
+1. Alice fait des courses pour 150€
+2. Elle enregistre la dépense dans l'application
+3. Le système calcule automatiquement : Alice +100€, Bob -50€, Carla -50€
+4. Bob et Carla voient leurs dettes dans l'interface
+
+### Scénario 3 : Optimisation des dettes
+1. Plusieurs dépenses créent des dettes croisées
+2. Alice clique sur "Optimiser les dettes"
+3. Le système réduit le nombre de transactions nécessaires
+4. Moins de virements à effectuer
+
+##  Tests et développement
+
+### Lancer les tests
+```bash
+php artisan test
+```
+
+### Fresh installation (développement)
+```bash
+php artisan migrate:fresh --seed
+npm run dev
+```
+
+### Génération de données de test
+```bash
+php artisan tinker
+User::factory()->count(50)->create();
+```
+
+##  Statistiques et monitoring
+
+### Dashboard Admin
+- **Utilisateurs** : total, actifs, bannis
+- **Colocations** : actives, annulées
+- **Dépenses** : total, montant moyen
+- **Graphiques** : registrations mensuelles, dépenses mensuelles
+
+### Dashboard Utilisateur
+- **Solde personnel** : positif (créditeur) ou négatif (débiteur)
+- **Dépenses récentes** de la colocation
+- **Membres** actifs et leur statut
+- **Invitations** en attente
+
+##  Workflow de développement
+
+1. **Fork** le projet
+2. **Créer une branche** feature/nom-de-la-fonctionnalité
+3. **Développer** en respectant les standards Laravel
+4. **Tester** avec PHPUnit
+5. **Commit** avec messages clairs
+6. **Push** et créer une **Pull Request**
+
+##  Notes importantes
+
+- **Premier utilisateur** devient automatiquement Global Admin
+- **Un utilisateur** ne peut avoir qu'une seule colocation active
+- **Maximum 10 membres** par colocation
+- **Invitations** expirent après 7 jours
+- **Réputation** ajustée automatiquement lors des départs/annulations
+
+##  Contribuer
+
+Les contributions sont bienvenues ! Veuillez :
+
+1. Respecter le code style PSR-12
+2. Ajouter des tests pour les nouvelles fonctionnalités
+3. Documenter les changements dans le README
+4. Utiliser des messages de commit clairs
+
+##  Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+##  Support
+
+Pour toute question ou problème :
+
+- Créer une **issue** sur GitHub
+- Contacter le mainteneur du projet
+- Consulter la documentation Laravel officielle
+
+---
+
+**EasyColoc** - Simplifiez la gestion de votre colocation ! 
