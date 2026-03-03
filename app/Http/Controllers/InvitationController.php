@@ -2,94 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colocation;
 use App\Models\Invitation;
 use App\Models\Membership;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Mail\InvitationMail;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\ColocationController;
-
+use App\Services\InvitationService;
+use Illuminate\Support\Facades\Auth;
 
 class InvitationController extends Controller
 {
-    //envoi l'inv
-    public function store(Request $request, $colocationId)
-{
-    $request->validate([
-        'email' => 'required|email'
-    ]);
-
-    $user = \App\Models\User::where('email', $request->email)->first();
-
-    if ($user) {
-        $alreadyMember = \App\Models\Membership::where('user_id', $user->id)
-            ->where('colocation_id', $colocationId)
-            ->where('status', 'active')
-            ->exists();
-
-        if ($alreadyMember) {
-            return back()->with('error', 'Cet utilisateur est déjà membre.');
-        }
+    public function __construct(private readonly InvitationService $invitationService)
+    {
+        $this->middleware(['auth', 'not.banned'])->except('accept');
     }
 
-    // Create invitation
-    Invitation::create([
-        'email' => $request->email,
-        'colocation_id' => $colocationId,
-        'token' => Str::random(40),
-        'expires_at' => now()->addDays(2),
-        'status' => 'pending',
-        'expires_at' => now()->addDays(2),
-    ]);
-   $invitation = Invitation::create([
-    'email' => $request->email,
-    'colocation_id' => $colocationId,
-    'token' => Str::random(40),
-    'expires_at' => now()->addDays(2),
-    'status' => 'pending',
-]);
-
-// Envoyer l’email
-Mail::to($request->email)->send(new InvitationMail($invitation));
-    return back()->with('success', 'Invitation envoyée');
-}
-
-    //accpte
-    public function accept($token)
+    public function accept(string $token)
     {
-        $invitation = Invitation::where('token', $token)
-            ->where('status', 'pending')
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $invitation = Invitation::query()
+            ->where('token', $token)
+            ->pending()
+            ->notExpired()
+            ->with('colocation')
             ->firstOrFail();
+
+        $user = Auth::user();
+
+        if (!$this->invitationService->assertInvitationEmailMatchesUser($invitation, $user)) {
+            return redirect()->route('dashboard')
+                ->with('error', "L'email du compte ne correspond pas a l'invitation.");
+        }
+
+        if ($user->hasActiveColocation()) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Vous avez deja une colocation active.');
+        }
+
+        if ($invitation->colocation->members()->count() >= 10) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Cette colocation a atteint le nombre maximum de membres.');
+        }
 
         Membership::create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'colocation_id' => $invitation->colocation_id,
-            'role' => 'member',
             'status' => 'active',
-            'joined_at' => now()
         ]);
 
-        $invitation->update([
-            'status' => 'accepted'
-        ]);
+        $invitation->accept();
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Invitation acceptée !');
+        return redirect()->route('colocations.show', $invitation->colocation)
+            ->with('success', 'Vous avez rejoint la colocation avec succes.');
     }
-    public function refuse($token)
+
+    public function refuse(string $token)
     {
-        $invitation = Invitation::where('token', $token)
-            ->where('status', 'pending')
+        $invitation = Invitation::query()
+            ->where('token', $token)
+            ->pending()
+            ->notExpired()
             ->firstOrFail();
 
-        if ($invitation->email !== auth()->user()->email) {
-            abort(403);
+        $user = Auth::user();
+        if (!$this->invitationService->assertInvitationEmailMatchesUser($invitation, $user)) {
+            return redirect()->route('dashboard')
+                ->with('error', "L'email du compte ne correspond pas a l'invitation.");
         }
 
-        $invitation->update(['status' => 'refused']);
+        $invitation->refuse();
 
         return redirect()->route('dashboard')
-            ->with('success', 'Invitation refusée.');
+            ->with('success', 'Invitation refusee.');
+    }
+
+    public function destroy(Colocation $colocation, Invitation $invitation)
+    {
+        $this->authorize('manage', $colocation);
+
+        if ((int) $invitation->colocation_id !== (int) $colocation->id) {
+            abort(404);
+        }
+
+        $invitation->delete();
+
+        return back()->with('success', 'Invitation supprimee avec succes.');
     }
 }
