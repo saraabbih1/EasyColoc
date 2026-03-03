@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('memberships')) {
+            return;
+        }
+
         Schema::table('memberships', function (Blueprint $table) {
- Schema::table('memberships', function (Blueprint $table) {
-        $table->string('status')->default('active')->after('colocation_id');
-    });        });
+            if (!Schema::hasColumn('memberships', 'status')) {
+                $table->string('status')->default('active')->after('colocation_id');
+            }
+        });
     }
 
     /**
@@ -22,8 +27,14 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!Schema::hasTable('memberships')) {
+            return;
+        }
+
         Schema::table('memberships', function (Blueprint $table) {
-            //
+            if (Schema::hasColumn('memberships', 'status')) {
+                $table->dropColumn('status');
+            }
         });
     }
 };
