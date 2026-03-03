@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -35,11 +36,20 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $isFirstUser = (User::count() === 0);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $isFirstUser ? 'admin' : 'user',
+            'is_banned' => false,
+            'reputation' => 0,
         ]);
+
+        $roleName = $isFirstUser ? 'global_admin' : 'user';
+        Role::findOrCreate($roleName, 'web');
+        $user->assignRole($roleName);
 
         event(new Registered($user));
 
