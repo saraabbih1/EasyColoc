@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SettlementController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,9 @@ Route::middleware(['auth', 'not.banned'])->group(function () {
 
 // Settlement routes
 Route::middleware(['auth', 'not.banned'])->group(function () {
+    Route::get('/colocations/{colocation}/settlement', [SettlementController::class, 'show'])
+        ->name('colocations.settlement.show');
+
     Route::get('/colocations/{colocation}/settlements', [SettlementController::class, 'index'])
         ->name('settlements.index');
     
@@ -87,6 +91,12 @@ Route::middleware(['auth', 'not.banned'])->group(function () {
     
     Route::post('/colocations/{colocation}/settlements/optimize', [SettlementController::class, 'optimize'])
         ->name('settlements.optimize');
+});
+
+// Payment routes
+Route::middleware(['auth', 'not.banned'])->group(function () {
+    Route::post('/colocations/{colocation}/payments', [PaymentController::class, 'store'])
+        ->name('colocations.payments.store');
 });
 
 // Category routes
