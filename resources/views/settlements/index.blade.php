@@ -125,18 +125,22 @@
                                                 <p class="text-xs text-gray-500">En attente</p>
                                             </div>
                                             
-                                            @if($settlement->debtor_id === auth()->id() || $settlement->creditor_id === auth()->id())
-                                                <form action="{{ route('settlements.mark-as-paid', [$colocation, $settlement]) }}" method="POST" onsubmit="return confirm('Marquer ce paiement comme effectué ?')">
+                                            @can('markAsPaid', $settlement)
+                                                <form action="{{ route('settlements.mark-as-paid', [$colocation, $settlement]) }}" method="POST" onsubmit="return confirm('Marquer ce paiement comme effectue ?')">
                                                     @csrf
                                                     <button type="submit" 
                                                             class="inline-flex items-center px-3 py-1.5 border border-green-300 text-xs font-medium rounded text-green-700 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                                         </svg>
-                                                        Payé
+                                                        Payer
                                                     </button>
                                                 </form>
-                                            @endif
+                                            @else
+                                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                                                    Paid
+                                                </span>
+                                            @endcan
                                         </div>
                                     </div>
                                 @endforeach
@@ -244,3 +248,4 @@
     </div>
 </div>
 @endsection
+
