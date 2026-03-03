@@ -142,12 +142,14 @@ class BalanceCalculatorService
 
         foreach ($balances as $userId => $balance) {
             if (abs($balance) > 0.01) {
-                $user = $colocation->members()->firstWhere('id', $userId);
+                $user = $colocation->members()
+                    ->where('users.id', $userId)
+                    ->first();
                 $summary[] = [
                     'user' => $user,
                     'balance' => $balance,
                     'type' => $balance > 0 ? 'creditor' : 'debtor',
-                    'formatted_amount' => number_format(abs($balance), 2, ',', ' ') . ' €'
+                    'formatted_amount' => number_format(abs($balance), 2, ',', ' ') . ' MAD'
                 ];
             }
         }
