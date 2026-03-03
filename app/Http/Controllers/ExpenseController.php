@@ -23,7 +23,7 @@ class ExpenseController extends Controller
         $this->authorize('view', $colocation);
 
         $expenses = $colocation->expenses()
-            ->with(['category', 'user'])
+            ->with(['category', 'user', 'payments'])
             ->orderBy('expense_date', 'desc')
             ->paginate(20);
 
@@ -32,7 +32,7 @@ class ExpenseController extends Controller
         $monthFilter = request('month', now()->format('Y-m'));
         $categoryFilter = request('category');
 
-        $query = $colocation->expenses()->with(['category', 'user']);
+        $query = $colocation->expenses()->with(['category', 'user', 'payments']);
 
         if ($monthFilter) {
             $query->whereMonth('expense_date', substr($monthFilter, 5, 2))
