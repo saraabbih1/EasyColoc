@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('color')->default('#6B7280');
             $table->foreignId('colocation_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+            
+            $table->unique(['name', 'colocation_id']);
         });
     }
 
