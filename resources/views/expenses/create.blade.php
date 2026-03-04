@@ -92,8 +92,7 @@
                                 <option value="">Sélectionner une catégorie</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" 
-                                            {{ old('category_id') == $category->id ? 'selected' : '' }}
-                                            data-color="{{ $category->color }}">
+                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
