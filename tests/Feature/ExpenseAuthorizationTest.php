@@ -46,7 +46,6 @@ class ExpenseAuthorizationTest extends TestCase
 
         $category = Category::create([
             'name' => 'Courses',
-            'color' => '#6366f1',
             'colocation_id' => $colocation->id,
         ]);
 
@@ -118,7 +117,6 @@ class ExpenseAuthorizationTest extends TestCase
 
         $category = Category::create([
             'name' => 'Courses',
-            'color' => '#6366f1',
             'colocation_id' => $colocation->id,
         ]);
 
