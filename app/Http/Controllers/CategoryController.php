@@ -40,7 +40,6 @@ class CategoryController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'color' => ['nullable', 'regex:/^#([A-Fa-f0-9]{6})$/'],
         ]);
 
         $existingCategory = $colocation->categories()
@@ -53,12 +52,8 @@ class CategoryController extends Controller
             ]);
         }
 
-        $color = $validated['color'] ?? null;
-        $color = is_string($color) && trim($color) === '' ? null : $color;
-
         Category::create([
             'name' => $validated['name'],
-            'color' => $color,
             'colocation_id' => $colocation->id,
         ]);
 
@@ -87,7 +82,6 @@ class CategoryController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'color' => ['nullable', 'regex:/^#([A-Fa-f0-9]{6})$/'],
         ]);
 
         $existingCategory = $colocation->categories()
@@ -101,12 +95,8 @@ class CategoryController extends Controller
             ]);
         }
 
-        $color = $validated['color'] ?? null;
-        $color = is_string($color) && trim($color) === '' ? null : $color;
-
         $category->update([
             'name' => $validated['name'],
-            'color' => $color,
         ]);
 
         return redirect()->route('colocations.show', $colocation)
