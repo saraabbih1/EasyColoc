@@ -166,7 +166,7 @@
                                 @foreach($expenses->take(5) as $expense)
                                     <div class="flex items-center justify-between p-3 border-b border-gray-200 last:border-0">
                                         <div class="flex items-center">
-                                            <div class="w-2 h-2 rounded-full" style="background-color: {{ $expense->category->color ?? '#6B7280' }}"></div>
+                                            <div class="w-2 h-2 rounded-full bg-gray-400"></div>
                                             <div class="ml-3">
                                                 <p class="text-sm font-medium text-gray-900">{{ $expense->title }}</p>
                                                 <p class="text-xs text-gray-500">
@@ -253,11 +253,6 @@
                                         class="mt-1 block w-full rounded-md border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                         placeholder="Nouvelle categorie">
                                 </div>
-                                <div>
-                                    <label for="category_color" class="block text-sm font-medium text-gray-700">Couleur</label>
-                                    <input id="category_color" type="color" name="color" value="#6366F1"
-                                        class="mt-1 h-10 w-full rounded-md border-gray-300">
-                                </div>
                                 <button type="submit"
                                     class="w-full inline-flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
                                     Ajouter
@@ -275,10 +270,7 @@
                             <div class="space-y-2">
                                 @foreach($categories as $category)
                                     <div class="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2">
-                                        <div class="flex items-center gap-2">
-                                            <span class="inline-block h-3 w-3 rounded-full" style="background-color: {{ $category->color ?? '#6B7280' }};"></span>
-                                            <span class="text-sm text-gray-800">{{ $category->name }}</span>
-                                        </div>
+                                        <span class="text-sm text-gray-800">{{ $category->name }}</span>
                                         @if($canManage)
                                             <form action="{{ route('categories.destroy', [$colocation, $category]) }}" method="POST" onsubmit="return confirm('Supprimer cette categorie ?')">
                                                 @csrf
