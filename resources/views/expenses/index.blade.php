@@ -111,7 +111,7 @@
                                     @foreach($categoryStats->take(5) as $stat)
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center">
-                                                <div class="w-2 h-2 rounded-full mr-2" style="background-color: {{ $stat->category->color ?? '#6B7280' }}"></div>
+                                                <div class="w-2 h-2 rounded-full mr-2 bg-gray-400"></div>
                                                 <span class="text-xs text-gray-600">{{ $stat->category->name }}</span>
                                             </div>
                                             <span class="text-xs font-medium text-gray-900">{{ number_format($stat->total, 2, ',', ' ') }} MAD</span>
@@ -180,7 +180,7 @@
                                             <tr class="hover:bg-gray-50">
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="flex items-center">
-                                                        <div class="w-2 h-2 rounded-full mr-3" style="background-color: {{ $expense->category->color ?? '#6B7280' }}"></div>
+                                                        <div class="w-2 h-2 rounded-full mr-3 bg-gray-400"></div>
                                                         <div>
                                                             <div class="text-sm font-medium text-gray-900">{{ $expense->title }}</div>
                                                             <div class="text-xs text-gray-500">{{ $expense->category->name ?? 'Non catégorisée' }}</div>
