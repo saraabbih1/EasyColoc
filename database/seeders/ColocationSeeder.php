@@ -60,18 +60,17 @@ class ColocationSeeder extends Seeder
 
         // Create categories for first colocation
         $categories1 = [
-            ['name' => 'Courses alimentaires', 'color' => '#10B981'],
-            ['name' => 'Loyer et charges', 'color' => '#3B82F6'],
-            ['name' => 'Électricité', 'color' => '#F59E0B'],
-            ['name' => 'Internet', 'color' => '#8B5CF6'],
-            ['name' => 'Sorties et restaurants', 'color' => '#EF4444'],
-            ['name' => 'Produits ménagers', 'color' => '#6B7280'],
+            ['name' => 'Courses alimentaires'],
+            ['name' => 'Loyer et charges'],
+            ['name' => 'Ã‰lectricitÃ©'],
+            ['name' => 'Internet'],
+            ['name' => 'Sorties et restaurants'],
+            ['name' => 'Produits mÃ©nagers'],
         ];
 
         foreach ($categories1 as $categoryData) {
             Category::create([
                 'name' => $categoryData['name'],
-                'color' => $categoryData['color'],
                 'colocation_id' => $colocation1->id,
             ]);
         }
@@ -167,15 +166,14 @@ class ColocationSeeder extends Seeder
 
         // Create categories for second colocation
         $categories2 = [
-            ['name' => 'Nourriture', 'color' => '#059669'],
-            ['name' => 'Factures', 'color' => '#1D4ED8'],
-            ['name' => 'Jardin', 'color' => '#65A30D'],
+            ['name' => 'Nourriture'],
+            ['name' => 'Factures'],
+            ['name' => 'Jardin'],
         ];
 
         foreach ($categories2 as $categoryData) {
             Category::create([
                 'name' => $categoryData['name'],
-                'color' => $categoryData['color'],
                 'colocation_id' => $colocation2->id,
             ]);
         }
