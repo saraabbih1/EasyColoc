@@ -73,7 +73,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($expense->category)
                                             <div class="flex items-center">
-                                                <div class="w-2 h-2 rounded-full mr-2" style="background-color: {{ $expense->category->color }}"></div>
+                                                <div class="w-2 h-2 rounded-full mr-2 bg-gray-400"></div>
                                                 <span class="text-sm text-gray-900">{{ $expense->category->name }}</span>
                                             </div>
                                         @else
